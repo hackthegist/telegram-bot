@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from .models import Todo
 from decouple import config
 import telegram
 import requests
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 synastry = config("synastrybot")
@@ -69,3 +70,9 @@ def delete(request, pk):
     todo.delete()
 
     return redirect('todos:index')
+
+csrf_exempt
+def telegram(request):
+    print(request.method)
+    print(request)
+    return HttpResponse("Goooood!")
