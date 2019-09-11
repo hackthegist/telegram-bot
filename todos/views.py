@@ -1,12 +1,19 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Todo
-
+from decouple import config
+import telegram
+import requests
 # Create your views here.
+
+synastry = config("synastrybot")
+angi = config("angi_bot")
+park = config("park")
+jimmy = config("jimmy")
 
 def index(request):
     todos = Todo.objects.all()
     context = {
-        'todos': todos
+        'todos': todos,
     }
     return render(request, 'todos/index.html', context)
 
@@ -22,6 +29,12 @@ def create(request):
             title=title, 
             due_date=due_date
         )
+        synastry_bot = telegram.Bot(token = synastry)
+        angi_bot = telegram.Bot(token = angi)
+        synastry_bot.sendMessage(chat_id = park, text=f"todo: {title} due_date: {due_date}")
+        angi_bot.sendMessage(chat_id = park, text=f"todo: {title} due_date: {due_date}")
+        synastry_bot.sendMessage(chat_id = jimmy, text=f"todo: {title} due_date: {due_date}")
+        angi_bot.sendMessage(chat_id = jimmy, text=f"todo: {title} due_date: {due_date}")
         return redirect('todos:index')
         
     else:
@@ -40,7 +53,11 @@ def update(request, pk):
         todo.title = title
         todo.due_date = due_date
         todo.save()
-
+        base_url = "https://api.telegram.org/bot"
+        for bot in [synastry, angi]:
+            for user in [park, jimmy]:
+                url = base_url + f'{bot}/sendMessage?text=title: {title} due date: {due_date}&chat_id={user}'
+                requests.post(url)
         return redirect('todos:index')
         
 
