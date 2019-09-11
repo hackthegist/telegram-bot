@@ -2,14 +2,16 @@
 
 
 {% block body %}
+<h1 class="mt-5">Tasks</h1>
 <div class="container my-3">
-    {% for todo in todos  %}
+    {% for todo in todos %}
     <div class="card">
-        <h5 class="card-header"> {{ todo.due_date }}</h5>
         <div class="card-body d-flex justify-content-between">
             <h5 class="card-title">{{ todo.title }}</h5>
+
             <!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
             <div>
+                <small class="mr-3"><b>Due to {{ todo.due_date }}</b></small>
                 <a href="{% url 'todos:update' todo.id %}" class="btn btn-success">수정</a>
                 <a href="{% url 'todos:delete' todo.id %}" class="btn btn-warning">삭제</a>
             </div>

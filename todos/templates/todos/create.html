@@ -2,11 +2,13 @@
 
 
 {% block body %}
-<h1>새 글 쓰기</h1>
-<form action="{% url 'todos:create' %}" method="post">
-    {% csrf_token %}
-    <input type="text" name="title">
-    <input type="date" name="due-date">
-    <input type="submit">
-</form>
+<h1 class="mt-5">New</h1>
+<div class="container my-3">
+    <form action="{% url 'todos:create' %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="title">
+        <input type="date" name="due-date">
+        <input type="submit">
+    </form>
+</div>
 {% endblock body %}
