@@ -2,7 +2,7 @@
 
 
 {% block body %}
-<h1>글 수정하기</h1>
+<h1 class="mt-5 mb-3">Edit</h1>
 <form action="{% url 'todos:update' todo.id %}" method="post">
     {% csrf_token %}
     <input type="text" name="title" value="{{ todo.title }}">
